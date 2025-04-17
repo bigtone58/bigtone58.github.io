@@ -2,19 +2,30 @@
 # Script to print network information for BGInfo
 # Using CIM/WMI to acquire Network Configuration
 
-# Configuration
-$ShowCaption = $false
-$ShowIPAddress = $true
-$ShowIPv6 = $false
-$ShowDHCP = $false
-$ShowDHCPExpire = $false
-$ShowGateway = $false
-$ShowSubnet = $false
-$ShowDNSDomain = $false
+# Configuration Declarations
 
-# Get network adapters using CimInstance (modern replacement for WMI)
-$networkAdapters = Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration | 
-                   Where-Object { $_.IPEnabled -eq $true }
+# Which computer ? - normally . for the localhost
+$strComputer = "."
+# Display Adaptor Name ?
+$ShowCaption = $false
+# Display the IP address ?
+$ShowIPAddress = $true
+# Display IPv6 addresses ?
+$ShowIPv6 = $false
+# Display whether the address is a DHCP Address ?
+$ShowDHCP = $false
+# Display DHCP Lease expiry ?
+$ShowDHCPExpire = $false
+# Display the Default Gateway
+$ShowGateway = $false
+# Display the Default Subnet
+$ShowSubnet = $false
+# Display the DNS Domain
+$ShowDNSDomain = $false
+# End of script message
+$strMessage = ""
+
+# Configuration Values
 
 foreach ($adapter in $networkAdapters) {
     foreach ($ip in $adapter.IPAddress) {
